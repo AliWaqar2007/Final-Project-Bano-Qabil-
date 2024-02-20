@@ -1,0 +1,9 @@
+{
+    "id": 1000,
+    "name": "watch",
+    "weight": 1,
+    "tracking_id": 0,
+    "for_user": 1000,
+    "to_user": 1001,
+    "type": "delivery"
+}
