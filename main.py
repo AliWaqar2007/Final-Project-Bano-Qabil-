@@ -58,7 +58,7 @@ class branch:
         self.state = state
         self.country = country
 
-        self.parcel_dict = {
+        self.branch_dict = {
             "id": self.id,
             "name": self.name,
             "address": self.address,
@@ -67,11 +67,15 @@ class branch:
         }
 
     def to_dict(self):
-        return self.branch_dict   
+        return self.branch_dict 
     
 print("1: Add a user")
 print("2: Add a parcel")
 print("3: Add a branch")
+
+print("11: Update a user")
+print("12: Update a parcel")
+print("13: Update a branch")
 
 action = int(input("Enter your action: "))
 
@@ -85,7 +89,7 @@ if action == 1:
         branch_ = input("Enter agent branch: ")
         User_data = User(id, name, email, password, rtype, branch_)
     elif rtype == "customer":
-        address = input("Enter user address")
+        address = input("Enter user address: ")
         User_data = User(id, name, email, password, rtype, address)
 
     user_dict = User_data.to_dict()
@@ -109,10 +113,10 @@ elif action == 2:
 
     parcel_dict = parcel_data.to_dict()
 
-    json_user = json.dumps(parcel_dict, indent=4)
+    json_parcel = json.dumps(parcel_dict, indent=4)
 
     f = open("parcel.txt","a")
-    f.write(json_user)
+    f.write(json_parcel)
     f.close()
 
 elif action == 3:
@@ -124,10 +128,34 @@ elif action == 3:
 
     branch_data = branch(id, name, address, state, country)
 
-    branch_dict = branch_data.to_data()
+    branch_dict = branch_data.to_dict()
 
-    json_user = json.dumps(branch_dict, indent=4)
+    json_branch = json.dumps(branch_dict, indent=4)
 
     f = open("branch.txt","a")
-    f.write(json_user)
+    f.write(json_branch)
     f.close()
+
+elif action == 11:
+    id = int(input("Enter user id you want to update: "))
+    field = input("Which field you want to update: ")
+
+    with open("user.txt", "r") as file:
+        users = json.load(file)
+
+    user_update_index = None
+
+    for i in users:
+        if i["id"] == id:
+            user_update_index = i
+            break
+
+    if user_update_index != None:
+        update_data = input(f"Enter the new value for {field}: ")
+        users[user_update_index][field] = update_data
+
+        with open("user.txt", "w") as file:
+            json.dump(users, file, indent=4)
+
+    else:  
+        print("User not found")
