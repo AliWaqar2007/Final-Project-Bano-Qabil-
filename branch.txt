@@ -1,0 +1,7 @@
+{
+    "id": 10,
+    "name": "10",
+    "address": "Karachi",
+    "state": "Sindh",
+    "country": "Pakistan"
+}
