@@ -1,38 +1,52 @@
 import json
 
 class User:
-    def __init__(self, id, name, email, password, rtype, branch=None, address=None):
+    def __init__(self, id, name, email, password, address):
         self.id = id
         self.name = name
         self.email = email
         self.password = password
-        self.rtype = rtype
-        self.branch = branch
         self.address = address
 
         self.user_dict = {
-            
             "id": self.id,
             "name": self.name,
             "email": self.email,
             "password": self.password,
-            "rtype": self.rtype
-            
+            "address" : self.address
+
         }
-        if self.rtype == "agent":
-            self.user_dict["branch"] = self.branch
-        elif self.rtype == "customer":
-            self.user_dict["address"] = self.address
 
     def to_dict(self):
         return self.user_dict
 
+class Agent:
+    def __init__(self, id, name, email, password, branch):
+        self.id = id
+        self.name = name
+        self.email = email
+        self.password = password
+        self.branch = branch
+        self.address = address
+
+        self.agent_dict = {
+            "id": self.id,
+            "name": self.name,
+            "email": self.email,
+            "password": self.password,
+            "branch": self.branch
+        }
+        
+    def to_dict(self):
+        return self.agent_dict    
+
 class Parcel:
-    def __init__(self, id, name, weight, tracking_id, for_user, to_user, type):
+    def __init__(self, id, name, weight, tracking_id, status, for_user, to_user, type):
         self.id = id
         self.name = name
         self.weight = weight
         self.tracking_id = tracking_id
+        self.status = status
         self.for_user = for_user
         self.to_user = to_user
         self.type = type
@@ -42,6 +56,7 @@ class Parcel:
             "name": self.name,
             "weight": self.weight,
             "tracking_id": self.tracking_id,
+            "status": self.status,
             "for_user": self.for_user,
             "to_user": self.to_user,
             "type": self.type
@@ -49,8 +64,8 @@ class Parcel:
 
     def to_dict(self):
         return self.parcel_dict
-    
-class branch:
+
+class Branch:
     def __init__(self, id, name, address, state, country):
         self.id = id
         self.name = name
@@ -67,15 +82,17 @@ class branch:
         }
 
     def to_dict(self):
-        return self.branch_dict 
-    
-print("1: Add a user")
-print("2: Add a parcel")
-print("3: Add a branch")
+        return self.branch_dict
 
-print("11: Update a user")
-print("12: Update a parcel")
-print("13: Update a branch")
+print("\n1: Add a user")
+print("2: Add a agent")
+print("3: Add a parcel")
+print("4: Add a branch")
+
+print("\n11: Update a user")
+print("12: Update a agent")
+print("13: Update a parcel")
+print("14: Update a branch\n")
 
 action = int(input("Enter your action: "))
 
@@ -84,78 +101,120 @@ if action == 1:
     name = input("Enter user name: ")
     email = input("Enter user email: ")
     password = input("Enter user password: ")
-    rtype = input("Enter user type (customer/agent): ")
-    if rtype == "agent":
-        branch_ = input("Enter agent branch: ")
-        User_data = User(id, name, email, password, rtype, branch_)
-    elif rtype == "customer":
-        address = input("Enter user address: ")
-        User_data = User(id, name, email, password, rtype, address)
+    address = input("Enter user address: ")
+    User_data = User(id, name, email, password, address)
 
     user_dict = User_data.to_dict()
 
-    json_user = json.dumps(user_dict, indent=4)
+    with open("user.txt", "w") as f:
+        json.dump(user_dict, f, indent=4)
 
-    f = open("user.txt","a")
-    f.write(json_user)
-    f.close()
-
-elif action == 2:
+elif action == 3:
     id = int(input("Enter parcel ID: "))
     name = input("Enter parcel name: ")
     weight = int(input("Enter parcel weight (in kg): "))
     tracking_id = int(input("Enter parcel tracking_id: "))
+    status = int(input("Enter the parcel's status (in digit): "))
     from_user = int(input("Enter user's id from whom parcel has to be delivered: "))
     to_user = int(input("Enter user's id for whom parcel will be delivered: "))
     type = input("Enter parcel type (delivery/pickup): ")
 
-    parcel_data = Parcel(id, name, weight, tracking_id, from_user, to_user, type)
+    parcel_data = Parcel(id, name, weight, tracking_id, status, from_user, to_user, type)
 
     parcel_dict = parcel_data.to_dict()
 
-    json_parcel = json.dumps(parcel_dict, indent=4)
+    with open("parcel.txt", "w") as f:
+        json.dump(parcel_dict, f, indent=4)
 
-    f = open("parcel.txt","a")
-    f.write(json_parcel)
-    f.close()
-
-elif action == 3:
+elif action == 4:
     id = int(input("Enter branch id: "))
-    name = input("Enter branch id: ")
+    name = input("Enter branch name: ")
     address = input("Enter branch address: ")
     state = input("Enter State: ")
     country = input("Enter country where branch is situated: ")
 
-    branch_data = branch(id, name, address, state, country)
+    branch_data = Branch(id, name, address, state, country)
 
     branch_dict = branch_data.to_dict()
 
-    json_branch = json.dumps(branch_dict, indent=4)
+    with open("branch.txt", "w") as f:
+        json.dump(branch_dict, f, indent=4)
 
-    f = open("branch.txt","a")
-    f.write(json_branch)
-    f.close()
+elif action == 2:
+    id = int(input("Enter agent ID: "))
+    name = input("Enter agent name: ")
+    email = input("Enter agent email: ")
+    password = input("Enter agent password: ")
+    address = input("Enter agent branch id: ")
+    agent_data = Agent(id, name, email, password, address)
+
+    agent_dict = agent_data.to_dict()
+
+    with open("agent.txt", "w") as f:
+        json.dump(agent_dict, f, indent=4)
 
 elif action == 11:
     id = int(input("Enter user id you want to update: "))
     field = input("Which field you want to update: ")
+    update_data = input(f"Enter the new value for {field}: ")
 
-    with open("user.txt", "r") as file:
+    with open("user.txt", "r+") as file:
         users = json.load(file)
 
-    user_update_index = None
+        for user in users:
+            if user["id"] == id:
+                user[field] = update_data
 
-    for i in users:
-        if i["id"] == id:
-            user_update_index = i
-            break
+        file.seek(0) 
+        json.dump(users, file, indent=4)
+        file.truncate()
 
-    if user_update_index != None:
-        update_data = input(f"Enter the new value for {field}: ")
-        users[user_update_index][field] = update_data
+elif action == 12:
+    id = int(input("Enter agent id you want to update: "))
+    field = input("Which field you want to update: ")
+    update_data = input(f"Enter the new value for {field}: ")
 
-        with open("user.txt", "w") as file:
-            json.dump(users, file, indent=4)
+    with open("agent.txt", "r+") as file:
+        agent = json.load(file)
 
-    else:  
-        print("User not found")
+        for agents in agent:
+            if agents["id"] == id:
+                agents[field] = update_data
+
+        file.seek(0) 
+        json.dump(agent, file, indent=4)
+        file.truncate()
+
+elif action == 13:
+    id = int(input("Enter parcel id you want to update: "))
+    field = input("Which field you want to update: ")
+    update_data = input(f"Enter the new value for {field}: ")
+
+    with open("parcel.txt", "r+") as file:
+        parcel = json.load(file)
+
+        for parcels in parcel:
+            if parcels["id"] == id:
+                parcels[field] = update_data
+
+        file.seek(0) 
+        json.dump(parcel, file, indent=4)
+        file.truncate()
+
+elif action == 14:
+    id = int(input("Enter branch id you want to update: "))
+    field = input("Which field you want to update: ")
+    update_data = input(f"Enter the new value for {field}: ")
+
+    with open("branch.txt", "r+") as file:
+        branch = json.load(file)
+
+        for branches in branch:
+            if branches["id"] == id:
+                branches[field] = update_data
+
+        file.seek(0) 
+        json.dump(branch, file, indent=4)
+        file.truncate()
+else:
+    print("Invalid Action")        
