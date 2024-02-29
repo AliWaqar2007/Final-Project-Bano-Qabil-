@@ -202,4 +202,4 @@ elif action == 14:
 
         json.dump(branch, file, indent=4)
 else:
-    print("Invalid Action")        
+    print("Invalid Action")
