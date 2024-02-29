@@ -25,7 +25,7 @@ if credentials["email"] == email and credentials["password"] == password:
             print("6: Delivered")
             status = input("Enter updated status: ")
             
-            parcels["status"] = status
+            parcels["status"] = int(status)
             
             with open("parcel.txt", "w") as f:
                 json.dump(parcels, f, indent=4)
