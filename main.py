@@ -158,9 +158,7 @@ elif action == 11:
             if user["id"] == id:
                 user[field] = update_data
 
-        file.seek(0) 
         json.dump(users, file, indent=4)
-        file.truncate()
 
 elif action == 12:
     id = int(input("Enter agent id you want to update: "))
@@ -174,9 +172,7 @@ elif action == 12:
             if agents["id"] == id:
                 agents[field] = update_data
 
-        file.seek(0) 
         json.dump(agent, file, indent=4)
-        file.truncate()
 
 elif action == 13:
     id = int(input("Enter parcel id you want to update: "))
@@ -190,9 +186,7 @@ elif action == 13:
             if parcels["id"] == id:
                 parcels[field] = update_data
 
-        file.seek(0) 
         json.dump(parcel, file, indent=4)
-        file.truncate()
 
 elif action == 14:
     id = int(input("Enter branch id you want to update: "))
@@ -206,8 +200,6 @@ elif action == 14:
             if branches["id"] == id:
                 branches[field] = update_data
 
-        file.seek(0) 
         json.dump(branch, file, indent=4)
-        file.truncate()
 else:
     print("Invalid Action")        
