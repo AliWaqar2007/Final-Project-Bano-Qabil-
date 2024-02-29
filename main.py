@@ -26,15 +26,12 @@ class Agent:
         self.name = name
         self.email = email
         self.password = password
-        self.branch = branch
-        self.address = address
 
         self.agent_dict = {
             "id": self.id,
             "name": self.name,
             "email": self.email,
             "password": self.password,
-            "branch": self.branch
         }
         
     def to_dict(self):
@@ -142,8 +139,7 @@ elif action == 2:
     name = input("Enter agent name: ")
     email = input("Enter agent email: ")
     password = input("Enter agent password: ")
-    address = input("Enter agent branch id: ")
-    agent_data = Agent(id, name, email, password, address)
+    agent_data = Agent(id, name, email, password)
 
     agent_dict = agent_data.to_dict()
 
