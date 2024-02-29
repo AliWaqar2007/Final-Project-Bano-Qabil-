@@ -41,7 +41,7 @@ class Agent:
         return self.agent_dict    
 
 class Parcel:
-    def __init__(self, id, name, weight, tracking_id, status, for_user, to_user, type):
+    def __init__(self, id, name, weight, tracking_id, status, for_user, to_user):
         self.id = id
         self.name = name
         self.weight = weight
@@ -49,7 +49,6 @@ class Parcel:
         self.status = status
         self.for_user = for_user
         self.to_user = to_user
-        self.type = type
 
         self.parcel_dict = {
             "id": self.id,
@@ -58,8 +57,7 @@ class Parcel:
             "tracking_id": self.tracking_id,
             "status": self.status,
             "for_user": self.for_user,
-            "to_user": self.to_user,
-            "type": self.type
+            "to_user": self.to_user
         }
 
     def to_dict(self):
@@ -112,14 +110,13 @@ if action == 1:
 elif action == 3:
     id = int(input("Enter parcel ID: "))
     name = input("Enter parcel name: ")
-    weight = int(input("Enter parcel weight (in kg): "))
+    weight = float(input("Enter parcel weight (in kg): "))
     tracking_id = int(input("Enter parcel tracking_id: "))
     status = int(input("Enter the parcel's status (in digit): "))
-    from_user = int(input("Enter user's id from whom parcel has to be delivered: "))
-    to_user = int(input("Enter user's id for whom parcel will be delivered: "))
-    type = input("Enter parcel type (delivery/pickup): ")
+    from_user = input("Enter customer's name from whom parcel has to be delivered: ")
+    to_user = input("Enter customer's name for whom parcel will be delivered: ")
 
-    parcel_data = Parcel(id, name, weight, tracking_id, status, from_user, to_user, type)
+    parcel_data = Parcel(id, name, weight, tracking_id, status, from_user, to_user)
 
     parcel_dict = parcel_data.to_dict()
 
