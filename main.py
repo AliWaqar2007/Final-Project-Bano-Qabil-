@@ -21,7 +21,7 @@ class User:
         return self.user_dict
 
 class Agent:
-    def __init__(self, id, name, email, password, branch):
+    def __init__(self, id, name, email, password):
         self.id = id
         self.name = name
         self.email = email
